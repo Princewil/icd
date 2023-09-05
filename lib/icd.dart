@@ -9,12 +9,14 @@ String initializedClientID = '';
 String initializedClientSecretKey = '';
 
 class ICD {
+  ///For Initializing the Plugin
   void initializeICDAPI(
       {required String clientID, required String clientSecretKey}) {
     initializedClientID = clientID;
     initializedClientSecretKey = clientSecretKey;
   }
 
+  ///Searching ICD database callback
   Future<List<ICDResult>> searchICD({
     required String keyWord,
     List<String> icdDxURLS = const [],
@@ -29,11 +31,7 @@ class ICD {
       throw Exception(errk);
     }
     final searchParams = propertiesToBeSearched
-        .map((e) {
-          final firstLetter = e.toString().substring(0, 1);
-          final otherLetter = e.toString().substring(1);
-          return '${firstLetter.toUpperCase()}$otherLetter';
-        })
+        .map(getPropertiesToBeSearchedKeyWord)
         .toList()
         .join(',');
     final url = Uri.https('id.who.int', '/icd/entity/search', {
@@ -52,9 +50,7 @@ class ICD {
       await getToken(); //we get new token
       res = await request(url);
     }
-    return ICDResult().getResult(json.decode(res.body));
+    Map map = jsonDecode(res.body);
+    return ICDResult().getResult(map);
   }
 }
-
-const errk =
-    'Initialize the ICD API. Call "ICD.initializeICDAPI()" and pass your clientID and ClientScretkey';
