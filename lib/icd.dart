@@ -54,3 +54,25 @@ class ICD {
     return ICDResult().getResult(map);
   }
 }
+
+class ICDResult {
+  String? id;
+  String? title;
+  List? matchingPVs;
+  List? descendants;
+  ICDResult({this.title, this.id, this.descendants, this.matchingPVs});
+
+  List<ICDResult> getResult(Map map) {
+    List<ICDResult> list = [];
+    List res = map['destinationEntities'];
+    for (var e in res) {
+      final r = ICDResult(
+          id: e['id'],
+          title: e['title'],
+          descendants: e['descendants'],
+          matchingPVs: e['matchingPVs']);
+      list.add(r);
+    }
+    return list;
+  }
+}
