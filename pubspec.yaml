@@ -1,6 +1,6 @@
 name: icd
 description: A flutter package that allows programmatic access to the International Classification of Diseases (ICD) API.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/Princewil/icd
 
 environment:
